@@ -1,40 +1,47 @@
 package data.impl;
+
 import data.DataStore;
 
-/**
- * DataStore for GasPump-1 (DS1)
- */
 public class DS1 extends DataStore {
-    public float temp_a;
-    public float temp_b; // Added based on typical usage (e.g. total calculation)
-    public int w;
-    public float price;
-    public float L;
+    public float temp_c; // Cash inserted
+    public float cash; // Cash stored
     public float total;
+    public int L;
+    public float price;
+    public float temp_a; // Price from Activate? Or temp cash? Diagram says temp_a is float.
+    public int w; // Flag
 
     // Getters and Setters
-    public float getTemp_a() {
-        return temp_a;
+    public float getTemp_c() {
+        return temp_c;
     }
 
-    public void setTemp_a(float temp_a) {
-        this.temp_a = temp_a;
+    public void setTemp_c(float temp_c) {
+        this.temp_c = temp_c;
     }
 
-    public float getTemp_b() {
-        return temp_b;
+    public float getCash() {
+        return cash;
     }
 
-    public void setTemp_b(float temp_b) {
-        this.temp_b = temp_b;
+    public void setCash(float cash) {
+        this.cash = cash;
     }
 
-    public int getW() {
-        return w;
+    public float getTotal() {
+        return total;
     }
 
-    public void setW(int w) {
-        this.w = w;
+    public void setTotal(float total) {
+        this.total = total;
+    }
+
+    public int getL() {
+        return L;
+    }
+
+    public void setL(int L) {
+        this.L = L;
     }
 
     public float getPrice() {
@@ -45,19 +52,19 @@ public class DS1 extends DataStore {
         this.price = price;
     }
 
-    public float getL() {
-        return L;
+    public float getTemp_a() {
+        return temp_a;
     }
 
-    public void setL(float L) {
-        this.L = L;
+    public void setTemp_a(float temp_a) {
+        this.temp_a = temp_a;
     }
 
-    public float getTotal() {
-        return total;
+    public int getW() {
+        return w;
     }
 
-    public void setTotal(float total) {
-        this.total = total;
+    public void setW(int w) {
+        this.w = w;
     }
 }
