@@ -1,0 +1,197 @@
+==========================================
+RUNNING USER TEST CASES
+==========================================
+
+--- Test #1 ---
+Price Stored: 4.1
+Select Payment Method:
+1. Credit
+2. Cash
+Cash Flag (w) set to: 1
+Cash Stored: 5.2
+Enjoy your Regular Gas.
+Cash Flag (w) set to: 0
+Initial Values Set (L=0, Total=0.0)
+Amount Pumped: 1 Liters
+RECEIPT:
+Liters: 1
+Total: $4.1
+
+--- Test #2 ---
+Price Stored: 4.1
+Select Payment Method:
+1. Credit
+2. Cash
+Cash Flag (w) set to: 1
+Cash Stored: 5.2
+Enjoy your Regular Gas.
+Cash Flag (w) set to: 0
+Initial Values Set (L=0, Total=0.0)
+Amount Pumped: 1 Liters
+RECEIPT:
+Liters: 1
+Total: $4.1
+
+--- Test #3 ---
+Price Stored: 4.1
+Select Payment Method:
+1. Credit
+2. Cash
+Cash Flag (w) set to: 1
+Cash Stored: 5.2
+Enjoy your Regular Gas.
+Cash Flag (w) set to: 0
+Transaction Cancelled
+Returning Cash: $5.2
+Select Payment Method:
+1. Credit
+2. Cash
+Cash Flag (w) set to: 1
+Enjoy your Regular Gas.
+Initial Values Set (L=0, Total=0.0)
+Amount Pumped: 1 Liters
+Amount Pumped: 2 Liters
+RECEIPT:
+Liters: 2
+Total: $8.2
+
+--- Test #4 ---
+Price Stored: 4.1
+Select Payment Method:
+1. Credit
+2. Cash
+Cash Flag (w) set to: 1
+Enjoy your Regular Gas.
+Initial Values Set (L=0, Total=0.0)
+Amount Pumped: 1 Liters
+Amount Pumped: 2 Liters
+RECEIPT:
+Liters: 2
+Total: $8.2
+
+--- Test #5 ---
+Price Stored: 4.1
+Select Payment Method:
+1. Credit
+2. Cash
+Cash Flag (w) set to: 1
+Credit Card Rejected
+Select Payment Method:
+1. Credit
+2. Cash
+Cash Flag (w) set to: 1
+Cash Stored: 9.0
+Enjoy your Regular Gas.
+Cash Flag (w) set to: 0
+Initial Values Set (L=0, Total=0.0)
+Amount Pumped: 1 Liters
+Amount Pumped: 2 Liters
+RECEIPT:
+Liters: 2
+Total: $8.2
+
+--- Test #6 ---
+Prices Stored: Regular=4, Diesel=7
+Select Payment Method:
+1. Credit
+2. Debit
+Data Initialized (Price=0)
+Please Enter PIN:
+PIN Stored
+WRONG PIN
+Select Fuel Grade:
+1. Regular
+2. Diesel
+Card Ejected
+Price Set: 4
+Initial Values Set (G=0, Total=0)
+Amount Pumped: 1 Gallons
+RECEIPT:
+Gallons: 1
+Total: $4
+
+--- Test #7 ---
+Prices Stored: Regular=4, Diesel=7
+Select Payment Method:
+1. Credit
+2. Debit
+Data Initialized (Price=0)
+Please Enter PIN:
+PIN Stored
+Select Fuel Grade:
+1. Regular
+2. Diesel
+Card Ejected
+Price Set: 4
+Initial Values Set (G=0, Total=0)
+Amount Pumped: 1 Gallons
+RECEIPT:
+Gallons: 1
+Total: $4
+
+--- Test #8 ---
+Prices Stored: Regular=4, Diesel=7
+Select Payment Method:
+1. Credit
+2. Debit
+Data Initialized (Price=0)
+Please Enter PIN:
+PIN Stored
+Select Fuel Grade:
+1. Regular
+2. Diesel
+Card Ejected
+Price Set: 4
+Initial Values Set (G=0, Total=0)
+Amount Pumped: 1 Gallons
+RECEIPT:
+Gallons: 1
+Total: $4
+
+--- Test #9 ---
+Prices Stored: Regular=4, Diesel=7
+Select Payment Method:
+1. Credit
+2. Debit
+Data Initialized (Price=0)
+Please Enter PIN:
+PIN Stored
+WRONG PIN
+WRONG PIN
+WRONG PIN
+Card Ejected
+Select Payment Method:
+1. Credit
+2. Debit
+Data Initialized (Price=0)
+Select Fuel Grade:
+1. Regular
+2. Diesel
+Card Ejected
+Price Set: 7
+Initial Values Set (G=0, Total=0)
+Amount Pumped: 1 Gallons
+Amount Pumped: 2 Gallons
+RECEIPT:
+Gallons: 2
+Total: $14
+
+--- Test #10 ---
+Prices Stored: Regular=4, Diesel=7
+Select Payment Method:
+1. Credit
+2. Debit
+Data Initialized (Price=0)
+Please Enter PIN:
+PIN Stored
+Select Fuel Grade:
+1. Regular
+2. Diesel
+Card Ejected
+Price Set: 4
+Price Set: 7
+Initial Values Set (G=0, Total=0)
+Amount Pumped: 1 Gallons
+RECEIPT:
+Gallons: 1
+Total: $7

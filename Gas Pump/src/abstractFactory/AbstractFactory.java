@@ -1,6 +1,7 @@
 package abstractFactory;
 
 import strategy.*;
+import data.*;
 
 public abstract class AbstractFactory {
     public abstract PayMsg createPayMsg();
@@ -38,4 +39,6 @@ public abstract class AbstractFactory {
     public abstract EnterPinMsg createEnterPinMsg();
 
     public abstract InitializeData createInitializeData();
+
+    public abstract DataStore createDataStore();
 }

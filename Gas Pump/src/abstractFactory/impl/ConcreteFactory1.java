@@ -1,6 +1,8 @@
 package abstractFactory.impl;
 
 import abstractFactory.AbstractFactory;
+import data.DataStore;
+import data.impl.DS1;
 import strategy.*;
 import strategy.impl.*;
 
@@ -93,5 +95,10 @@ public class ConcreteFactory1 extends AbstractFactory {
     @Override
     public InitializeData createInitializeData() {
         return new InitializeData1();
+    }
+
+    @Override
+    public DataStore createDataStore() {
+        return new DS1();
     }
 }

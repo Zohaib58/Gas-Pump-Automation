@@ -94,4 +94,9 @@ public class ConcreteFactory2 extends AbstractFactory {
     public InitializeData createInitializeData() {
         return new InitializeData2();
     }
+
+    @Override
+    public data.DataStore createDataStore() {
+        return new data.impl.DS2();
+    }
 }
