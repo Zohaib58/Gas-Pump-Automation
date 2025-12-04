@@ -1,0 +1,472 @@
+<html>
+<head>
+<style>
+body { font-family: Arial, sans-serif; }
+h1 { color: #2E4053; }
+h2 { color: #2874A6; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+h3 { color: #117864; margin-top: 20px; }
+strong { color: #000; }
+ul { margin-bottom: 10px; }
+li { margin-bottom: 5px; }
+</style>
+</head>
+<body>
+
+<h1>Class Design Report</h1>
+
+<h2>1. Input Processors</h2>
+
+<h3>GasPump1</h3>
+<p><strong>Purpose:</strong><br>
+Acts as the Input Processor for the first Gas Pump configuration. It bridges the platform-specific hardware inputs to the platform-independent State Machine (MDA-EFSM).</p>
+<p><strong>Responsibilities of Operations:</strong></p>
+<ul>
+<li><code>Activate(float a)</code>: Activates the pump with a price <code>a</code> for Regular gas. Parses input and calls <code>mda.Activate()</code>.</li>
+<li><code>Start()</code>: Initiates the transaction. Calls <code>mda.Start()</code>.</li>
+<li><code>PayCredit()</code>: Handles credit card payment input. Calls <code>mda.PayCredit()</code>.</li>
+<li><code>Reject()</code>: Simulates credit card rejection. Calls <code>mda.Reject()</code>.</li>
+<li><code>Cancel()</code>: Cancels the current transaction. Calls <code>mda.Cancel()</code>.</li>
+<li><code>Approved()</code>: Simulates credit card approval. Calls <code>mda.Approved()</code>.</li>
+<li><code>PayCash(float c)</code>: Handles cash insertion. Updates temp cash in DataStore and calls <code>mda.PayCash()</code>.</li>
+<li><code>StartPump()</code>: Starts the pumping process. Calls <code>mda.StartPump()</code>.</li>
+<li><code>PumpLiter()</code>: Simulates pumping 1 liter. Checks for cash limits (prepaid) and calls <code>mda.Pump()</code> or <code>mda.StopPump()</code>.</li>
+<li><code>StopPump()</code>: Stops the pumping process manually. Calls <code>mda.StopPump()</code>.</li>
+</ul>
+
+<h3>GasPump2</h3>
+<p><strong>Purpose:</strong><br>
+Acts as the Input Processor for the second Gas Pump configuration. It handles inputs specific to GasPump2 (Debit, PIN, Diesel) and maps them to the MDA-EFSM.</p>
+<p><strong>Responsibilities of Operations:</strong></p>
+<ul>
+<li><code>Activate(int a, int b)</code>: Activates the pump with prices for Regular (<code>a</code>) and Diesel (<code>b</code>). Updates DataStore and calls <code>mda.Activate()</code>.</li>
+<li><code>Start()</code>: Initiates the transaction. Calls <code>mda.Start()</code>.</li>
+<li><code>PayCredit()</code>: Handles credit card payment. Calls <code>mda.PayCredit()</code>.</li>
+<li><code>Reject()</code>: Simulates credit card rejection. Calls <code>mda.Reject()</code>.</li>
+<li><code>Approved()</code>: Simulates credit card approval. Calls <code>mda.Approved()</code>.</li>
+<li><code>PayDebit(int p)</code>: Handles debit card payment with a PIN <code>p</code>. Updates temp PIN in DataStore and calls <code>mda.PayDebit()</code>.</li>
+<li><code>Pin(int x)</code>: Verifies the entered PIN <code>x</code> against the stored PIN. Calls <code>mda.CorrectPin()</code> or <code>mda.IncorrectPin()</code>.</li>
+<li><code>Regular()</code>: Selects Regular gas. Calls <code>mda.SelectGas(1)</code>.</li>
+<li><code>Diesel()</code>: Selects Diesel gas. Calls <code>mda.SelectGas(2)</code>.</li>
+<li><code>StartPump()</code>: Starts the pumping process. Checks if price is set and calls <code>mda.StartPump()</code>.</li>
+<li><code>PumpGallon()</code>: Simulates pumping 1 gallon. Calls <code>mda.Pump()</code>.</li>
+<li><code>StopPump()</code>: Stops the pumping process. Calls <code>mda.StopPump()</code>.</li>
+<li><code>FullTank()</code>: Simulates a full tank event (auto-stop). Calls <code>mda.StopPump()</code>.</li>
+</ul>
+
+<hr>
+
+<h2>2. State Machine</h2>
+
+<h3>MDAEFSM</h3>
+<p><strong>Purpose:</strong><br>
+Implements the platform-independent State Machine logic. It maintains the current state context and delegates events to the current state object.</p>
+<p><strong>Responsibilities of Operations:</strong></p>
+<ul>
+<li><code>Activate()</code>: Delegates to <code>state.Activate()</code>.</li>
+<li><code>Start()</code>: Delegates to <code>state.Start()</code>.</li>
+<li><code>PayCredit()</code>: Delegates to <code>state.PayCredit()</code>.</li>
+<li><code>PayCash()</code>: Delegates to <code>state.PayCash()</code>.</li>
+<li><code>PayDebit()</code>: Delegates to <code>state.PayDebit()</code>.</li>
+<li><code>Approved()</code>: Delegates to <code>state.Approved()</code>.</li>
+<li><code>Reject()</code>: Delegates to <code>state.Reject()</code>.</li>
+<li><code>Cancel()</code>: Delegates to <code>state.Cancel()</code>.</li>
+<li><code>SelectGas(int g)</code>: Delegates to <code>state.SelectGas(g)</code>.</li>
+<li><code>StartPump()</code>: Delegates to <code>state.StartPump()</code>.</li>
+<li><code>Pump()</code>: Delegates to <code>state.Pump()</code>.</li>
+<li><code>StopPump()</code>: Delegates to <code>state.StopPump()</code>.</li>
+<li><code>CorrectPin()</code>: Delegates to <code>state.CorrectPin()</code>.</li>
+<li><code>IncorrectPin(int max)</code>: Delegates to <code>state.IncorrectPin(max)</code>.</li>
+<li><code>setState(State s)</code>: Transitions the system to a new state <code>s</code>.</li>
+<li><code>getStates()</code>: Returns the array of all state objects.</li>
+<li><code>getK()</code>: Returns the PIN retry counter.</li>
+<li><code>setK(int k)</code>: Sets the PIN retry counter.</li>
+</ul>
+
+<hr>
+
+<h2>3. States</h2>
+
+<h3>State (Abstract)</h3>
+<p><strong>Purpose:</strong><br>
+Defines the interface for all states in the EFSM. Provides default empty implementations.</p>
+<p><strong>Responsibilities of Operations:</strong></p>
+<ul>
+<li><code>Activate()</code>, <code>Start()</code>, <code>PayCredit()</code>, etc.: Default implementations that do nothing.</li>
+</ul>
+
+<h3>Start</h3>
+<p><strong>Purpose:</strong><br>
+Initial state waiting for activation.</p>
+<p><strong>Responsibilities of Operations:</strong></p>
+<ul>
+<li><code>Activate()</code>: Stores prices and transitions to <code>S0</code>.</li>
+</ul>
+
+<h3>S0</h3>
+<p><strong>Purpose:</strong><br>
+Idle state.</p>
+<p><strong>Responsibilities of Operations:</strong></p>
+<ul>
+<li><code>Start()</code>: Displays Pay Message, initializes data, sets <code>w</code> flag, and transitions to <code>S1</code>.</li>
+</ul>
+
+<h3>S1</h3>
+<p><strong>Purpose:</strong><br>
+Payment Selection state.</p>
+<p><strong>Responsibilities of Operations:</strong></p>
+<ul>
+<li><code>PayCredit()</code>: Transitions to <code>S2</code>.</li>
+<li><code>PayCash()</code>: Stores cash, displays menu, sets <code>w=0</code>, and transitions to <code>S3</code>.</li>
+<li><code>PayDebit()</code>: Displays PIN entry message, stores PIN, resets <code>k</code>, and transitions to <code>S8</code>.</li>
+</ul>
+
+<h3>S2</h3>
+<p><strong>Purpose:</strong><br>
+Credit Approval state.</p>
+<p><strong>Responsibilities of Operations:</strong></p>
+<ul>
+<li><code>Approved()</code>: Displays menu, ejects card, and transitions to <code>S3</code>.</li>
+<li><code>Reject()</code>: Displays rejection message, ejects card, and transitions to <code>S0</code>.</li>
+</ul>
+
+<h3>S3</h3>
+<p><strong>Purpose:</strong><br>
+Gas Selection state.</p>
+<p><strong>Responsibilities of Operations:</strong></p>
+<ul>
+<li><code>SelectGas(int g)</code>: Sets the price for the selected gas <code>g</code>.</li>
+<li><code>StartPump()</code>: Sets initial values and transitions to <code>S5</code>.</li>
+<li><code>Cancel()</code>: Cancels transaction, returns cash, and transitions to <code>S0</code>.</li>
+</ul>
+
+<h3>S5</h3>
+<p><strong>Purpose:</strong><br>
+Pumping state.</p>
+<p><strong>Responsibilities of Operations:</strong></p>
+<ul>
+<li><code>Pump()</code>: Pumps a unit of gas, updates totals, and displays progress.</li>
+<li><code>StopPump()</code>: Prints receipt and transitions to <code>S0</code>.</li>
+</ul>
+
+<h3>S8</h3>
+<p><strong>Purpose:</strong><br>
+PIN Verification state.</p>
+<p><strong>Responsibilities of Operations:</strong></p>
+<ul>
+<li><code>CorrectPin()</code>: Displays menu, ejects card, and transitions to <code>S3</code>.</li>
+<li><code>IncorrectPin(int max)</code>: Checks retries. If <code>k <= max</code>, displays wrong PIN and increments <code>k</code>. Else, ejects card and transitions to <code>S0</code>.</li>
+</ul>
+
+<hr>
+
+<h2>4. Output Processor</h2>
+
+<h3>OutputProcessor</h3>
+<p><strong>Purpose:</strong><br>
+Client for the Strategy Pattern. Delegates meta-actions to specific strategy objects.</p>
+<p><strong>Responsibilities of Operations:</strong></p>
+<ul>
+<li><code>StorePrices()</code>: Calls <code>storePricesStrategy.storePrices(data)</code>.</li>
+<li><code>PayMsg()</code>: Calls <code>payMsgStrategy.payMsg()</code>.</li>
+<li><code>StoreCash()</code>: Calls <code>storeCashStrategy.storeCash(data)</code>.</li>
+<li><code>DisplayMenu()</code>: Calls <code>displayMenuStrategy.displayMenu()</code>.</li>
+<li><code>RejectMsg()</code>: Calls <code>rejectMsgStrategy.rejectMsg()</code>.</li>
+<li><code>SetW()</code>: Calls <code>setWStrategy.setW(data, w)</code>.</li>
+<li><code>SetPrice()</code>: Calls <code>setPriceStrategy.setPrice(g, data)</code>.</li>
+<li><code>SetInitialValues()</code>: Calls <code>setInitialValuesStrategy.setInitialValues(data)</code>.</li>
+<li><code>PumpGasUnit()</code>: Calls <code>pumpGasUnitStrategy.pumpGasUnit(data)</code>.</li>
+<li><code>GasPumpedMsg()</code>: Calls <code>gasPumpedMsgStrategy.gasPumpedMsg(data)</code>.</li>
+<li><code>PrintReceipt()</code>: Calls <code>printReceiptStrategy.printReceipt(data)</code>.</li>
+<li><code>CancelMsg()</code>: Calls <code>cancelMsgStrategy.cancelMsg()</code>.</li>
+<li><code>EnterPinMsg()</code>: Calls <code>enterPinMsgStrategy.enterPinMsg()</code>.</li>
+<li><code>StorePin()</code>: Calls <code>storePinStrategy.storePin(data)</code>.</li>
+<li><code>WrongPinMsg()</code>: Calls <code>wrongPinMsgStrategy.wrongPinMsg()</code>.</li>
+<li><code>EjectCard()</code>: Calls <code>ejectCardStrategy.ejectCard(data)</code>.</li>
+</ul>
+
+<hr>
+
+<h2>5. Strategies (Abstract & Concrete)</h2>
+
+<h3>StorePrices (Interface)</h3>
+<p><strong>Purpose:</strong> Interface for storing prices.</p>
+<ul><li><code>storePrices(DataStore data)</code>: Stores price data.</li></ul>
+
+<h3>StorePrices1</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump1.</p>
+<ul><li><code>storePrices(DataStore data)</code>: Stores <code>temp_a</code> into <code>price</code> in <code>DS1</code>.</li></ul>
+
+<h3>StorePrices2</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump2.</p>
+<ul><li><code>storePrices(DataStore data)</code>: Stores <code>temp_a</code> into <code>Rprice</code> and <code>temp_b</code> into <code>Dprice</code> in <code>DS2</code>.</li></ul>
+
+<h3>PayMsg (Interface)</h3>
+<p><strong>Purpose:</strong> Interface for payment message.</p>
+<ul><li><code>payMsg()</code>: Displays payment options.</li></ul>
+
+<h3>PayMsg1</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump1.</p>
+<ul><li><code>payMsg()</code>: Displays "Select Payment: Credit or Cash".</li></ul>
+
+<h3>PayMsg2</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump2.</p>
+<ul><li><code>payMsg()</code>: Displays "Select Payment: Credit or Debit".</li></ul>
+
+<h3>StoreCash (Interface)</h3>
+<p><strong>Purpose:</strong> Interface for storing cash.</p>
+<ul><li><code>storeCash(DataStore data)</code>: Stores inserted cash.</li></ul>
+
+<h3>StoreCash1</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump1.</p>
+<ul><li><code>storeCash(DataStore data)</code>: Stores <code>temp_c</code> into <code>cash</code> in <code>DS1</code>.</li></ul>
+
+<h3>StoreCash2</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump2.</p>
+<ul><li><code>storeCash(DataStore data)</code>: Empty implementation (GasPump2 does not accept cash).</li></ul>
+
+<h3>DisplayMenu (Interface)</h3>
+<p><strong>Purpose:</strong> Interface for displaying menu.</p>
+<ul><li><code>displayMenu()</code>: Displays gas selection menu.</li></ul>
+
+<h3>DisplayMenu1</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump1.</p>
+<ul><li><code>displayMenu()</code>: Displays "Select Gas: Regular".</li></ul>
+
+<h3>DisplayMenu2</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump2.</p>
+<ul><li><code>displayMenu()</code>: Displays "Select Gas: Regular or Diesel".</li></ul>
+
+<h3>RejectMsg (Interface)</h3>
+<p><strong>Purpose:</strong> Interface for rejection message.</p>
+<ul><li><code>rejectMsg()</code>: Displays credit rejection message.</li></ul>
+
+<h3>RejectMsg1</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump1.</p>
+<ul><li><code>rejectMsg()</code>: Displays "Credit Card Rejected".</li></ul>
+
+<h3>RejectMsg2</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump2.</p>
+<ul><li><code>rejectMsg()</code>: Displays "Credit Card Rejected".</li></ul>
+
+<h3>SetW (Interface)</h3>
+<p><strong>Purpose:</strong> Interface for setting cash flag.</p>
+<ul><li><code>setW(DataStore data, int w)</code>: Sets the <code>w</code> flag.</li></ul>
+
+<h3>SetW1</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump1.</p>
+<ul><li><code>setW(DataStore data, int w)</code>: Sets <code>w</code> in <code>DS1</code>.</li></ul>
+
+<h3>SetW2</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump2.</p>
+<ul><li><code>setW(DataStore data, int w)</code>: Empty implementation.</li></ul>
+
+<h3>SetPrice (Interface)</h3>
+<p><strong>Purpose:</strong> Interface for setting current price.</p>
+<ul><li><code>setPrice(int g, DataStore data)</code>: Sets price based on grade <code>g</code>.</li></ul>
+
+<h3>SetPrice1</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump1.</p>
+<ul><li><code>setPrice(int g, DataStore data)</code>: Sets <code>price</code> in <code>DS1</code> (only one grade).</li></ul>
+
+<h3>SetPrice2</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump2.</p>
+<ul><li><code>setPrice(int g, DataStore data)</code>: Sets <code>price</code> in <code>DS2</code> (Regular if g=1, Diesel if g=2).</li></ul>
+
+<h3>SetInitialValues (Interface)</h3>
+<p><strong>Purpose:</strong> Interface for initializing pump values.</p>
+<ul><li><code>setInitialValues(DataStore data)</code>: Resets volume and total.</li></ul>
+
+<h3>SetInitialValues1</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump1.</p>
+<ul><li><code>setInitialValues(DataStore data)</code>: Resets <code>L</code> and <code>total</code> to 0 in <code>DS1</code>.</li></ul>
+
+<h3>SetInitialValues2</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump2.</p>
+<ul><li><code>setInitialValues(DataStore data)</code>: Resets <code>G</code> and <code>total</code> to 0 in <code>DS2</code>.</li></ul>
+
+<h3>PumpGasUnit (Interface)</h3>
+<p><strong>Purpose:</strong> Interface for pumping logic.</p>
+<ul><li><code>pumpGasUnit(DataStore data)</code>: Increments volume and calculates total.</li></ul>
+
+<h3>PumpGasUnit1</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump1.</p>
+<ul><li><code>pumpGasUnit(DataStore data)</code>: Increments <code>L</code>, calculates <code>total = price * L</code>.</li></ul>
+
+<h3>PumpGasUnit2</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump2.</p>
+<ul><li><code>pumpGasUnit(DataStore data)</code>: Increments <code>G</code>, calculates <code>total = price * G</code>.</li></ul>
+
+<h3>GasPumpedMsg (Interface)</h3>
+<p><strong>Purpose:</strong> Interface for pumping message.</p>
+<ul><li><code>gasPumpedMsg(DataStore data)</code>: Displays pumped amount.</li></ul>
+
+<h3>GasPumpedMsg1</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump1.</p>
+<ul><li><code>gasPumpedMsg(DataStore data)</code>: Displays "Pumped 1 liter".</li></ul>
+
+<h3>GasPumpedMsg2</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump2.</p>
+<ul><li><code>gasPumpedMsg(DataStore data)</code>: Displays "Pumped 1 gallon".</li></ul>
+
+<h3>PrintReceipt (Interface)</h3>
+<p><strong>Purpose:</strong> Interface for printing receipt.</p>
+<ul><li><code>printReceipt(DataStore data)</code>: Prints final receipt.</li></ul>
+
+<h3>PrintReceipt1</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump1.</p>
+<ul><li><code>printReceipt(DataStore data)</code>: Prints Liters and Total from <code>DS1</code>.</li></ul>
+
+<h3>PrintReceipt2</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump2.</p>
+<ul><li><code>printReceipt(DataStore data)</code>: Prints Gallons and Total from <code>DS2</code>.</li></ul>
+
+<h3>CancelMsg (Interface)</h3>
+<p><strong>Purpose:</strong> Interface for cancellation message.</p>
+<ul><li><code>cancelMsg()</code>: Displays cancellation message.</li></ul>
+
+<h3>CancelMsg1</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump1.</p>
+<ul><li><code>cancelMsg()</code>: Displays "Transaction Cancelled".</li></ul>
+
+<h3>CancelMsg2</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump2.</p>
+<ul><li><code>cancelMsg()</code>: Displays "Transaction Cancelled".</li></ul>
+
+<h3>EnterPinMsg (Interface)</h3>
+<p><strong>Purpose:</strong> Interface for PIN entry message.</p>
+<ul><li><code>enterPinMsg()</code>: Displays PIN prompt.</li></ul>
+
+<h3>EnterPinMsg1</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump1.</p>
+<ul><li><code>enterPinMsg()</code>: Empty implementation.</li></ul>
+
+<h3>EnterPinMsg2</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump2.</p>
+<ul><li><code>enterPinMsg()</code>: Displays "Please Enter PIN".</li></ul>
+
+<h3>StorePin (Interface)</h3>
+<p><strong>Purpose:</strong> Interface for storing PIN.</p>
+<ul><li><code>storePin(DataStore data)</code>: Stores entered PIN.</li></ul>
+
+<h3>StorePin1</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump1.</p>
+<ul><li><code>storePin(DataStore data)</code>: Empty implementation.</li></ul>
+
+<h3>StorePin2</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump2.</p>
+<ul><li><code>storePin(DataStore data)</code>: Stores <code>temp_p</code> into <code>pin</code> in <code>DS2</code>.</li></ul>
+
+<h3>WrongPinMsg (Interface)</h3>
+<p><strong>Purpose:</strong> Interface for wrong PIN message.</p>
+<ul><li><code>wrongPinMsg()</code>: Displays wrong PIN error.</li></ul>
+
+<h3>WrongPinMsg1</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump1.</p>
+<ul><li><code>wrongPinMsg()</code>: Empty implementation.</li></ul>
+
+<h3>WrongPinMsg2</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump2.</p>
+<ul><li><code>wrongPinMsg()</code>: Displays "WRONG PIN".</li></ul>
+
+<h3>EjectCard (Interface)</h3>
+<p><strong>Purpose:</strong> Interface for ejecting card.</p>
+<ul><li><code>ejectCard(DataStore data)</code>: Displays eject message.</li></ul>
+
+<h3>EjectCard1</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump1.</p>
+<ul><li><code>ejectCard(DataStore data)</code>: Empty implementation.</li></ul>
+
+<h3>EjectCard2</h3>
+<p><strong>Purpose:</strong> Concrete strategy for GasPump2.</p>
+<ul><li><code>ejectCard(DataStore data)</code>: Displays "Card Ejected".</li></ul>
+
+<hr>
+
+<h2>6. Data Store</h2>
+
+<h3>DataStore (Abstract)</h3>
+<p><strong>Purpose:</strong><br>
+Defines the abstract interface for data storage.</p>
+
+<h3>DS1</h3>
+<p><strong>Purpose:</strong><br>
+Concrete Data Store for GasPump1.</p>
+<p><strong>Responsibilities of Operations:</strong></p>
+<ul>
+<li><code>getTemp_a()</code>, <code>setTemp_a()</code>: Manage temporary price.</li>
+<li><code>getTemp_c()</code>, <code>setTemp_c()</code>: Manage temporary cash.</li>
+<li><code>getCash()</code>, <code>setCash()</code>: Manage stored cash.</li>
+<li><code>getPrice()</code>, <code>setPrice()</code>: Manage current price.</li>
+<li><code>getL()</code>, <code>setL()</code>: Manage liters pumped.</li>
+<li><code>getTotal()</code>, <code>setTotal()</code>: Manage total cost.</li>
+<li><code>getW()</code>, <code>setW()</code>: Manage cash flag.</li>
+</ul>
+
+<h3>DS2</h3>
+<p><strong>Purpose:</strong><br>
+Concrete Data Store for GasPump2.</p>
+<p><strong>Responsibilities of Operations:</strong></p>
+<ul>
+<li><code>getTemp_a()</code>, <code>setTemp_a()</code>: Manage temporary Regular price.</li>
+<li><code>getTemp_b()</code>, <code>setTemp_b()</code>: Manage temporary Diesel price.</li>
+<li><code>getTemp_p()</code>, <code>setTemp_p()</code>: Manage temporary PIN.</li>
+<li><code>getRprice()</code>, <code>setRprice()</code>: Manage Regular price.</li>
+<li><code>getDprice()</code>, <code>setDprice()</code>: Manage Diesel price.</li>
+<li><code>getPrice()</code>, <code>setPrice()</code>: Manage current selected price.</li>
+<li><code>getG()</code>, <code>setG()</code>: Manage gallons pumped.</li>
+<li><code>getTotal()</code>, <code>setTotal()</code>: Manage total cost.</li>
+<li><code>getPin()</code>, <code>setPin()</code>: Manage stored PIN.</li>
+</ul>
+
+<hr>
+
+<h2>7. Abstract Factory</h2>
+
+<h3>AbstractFactory</h3>
+<p><strong>Purpose:</strong><br>
+Defines the interface for creating families of related objects (Strategies and DataStore).</p>
+<p><strong>Responsibilities of Operations:</strong></p>
+<ul>
+<li><code>createDataStore()</code>: Abstract method to create DataStore.</li>
+<li><code>createStorePrices()</code>: Abstract method to create StorePrices strategy.
+<li><code>createPayMsg()</code>: Abstract method to create PayMsg strategy.</li>
+<li><code>createStoreCash()</code>: Abstract method to create StoreCash strategy.</li>
+<li><code>createDisplayMenu()</code>: Abstract method to create DisplayMenu strategy.</li>
+<li><code>createRejectMsg()</code>: Abstract method to create RejectMsg strategy.</li>
+<li><code>createSetW()</code>: Abstract method to create SetW strategy.</li>
+<li><code>createSetPrice()</code>: Abstract method to create SetPrice strategy.</li>
+<li><code>createSetInitialValues()</code>: Abstract method to create SetInitialValues strategy.</li>
+<li><code>createPumpGasUnit()</code>: Abstract method to create PumpGasUnit strategy.</li>
+<li><code>createGasPumpedMsg()</code>: Abstract method to create GasPumpedMsg strategy.</li>
+<li><code>createPrintReceipt()</code>: Abstract method to create PrintReceipt strategy.</li>
+<li><code>createCancelMsg()</code>: Abstract method to create CancelMsg strategy.</li>
+<li><code>createEnterPinMsg()</code>: Abstract method to create EnterPinMsg strategy.</li>
+<li><code>createStorePin()</code>: Abstract method to create StorePin strategy.</li>
+<li><code>createWrongPinMsg()</code>: Abstract method to create WrongPinMsg strategy.</li>
+<li><code>createEjectCard()</code>: Abstract method to create EjectCard strategy.</li>
+</ul>
+
+<h3>ConcreteFactory1</h3>
+<p><strong>Purpose:</strong><br>
+Creates components for GasPump1.</p>
+<p><strong>Responsibilities of Operations:</strong></p>
+<ul>
+<li><code>createDataStore()</code>: Returns <code>new DS1()</code>.</li>
+<li><code>createStorePrices()</code>: Returns <code>new StorePrices1()</code>.</li>
+<li><code>createPayMsg()</code>: Returns <code>new PayMsg1()</code>.</li>
+<li>... (and so on for all strategies): Returns the corresponding "1" strategy.</li>
+</ul>
+
+<h3>ConcreteFactory2</h3>
+<p><strong>Purpose:</strong><br>
+Creates components for GasPump2.</p>
+<p><strong>Responsibilities of Operations:</strong></p>
+<ul>
+<li><code>createDataStore()</code>: Returns <code>new DS2()</code>.</li>
+<li><code>createStorePrices()</code>: Returns <code>new StorePrices2()</code>.</li>
+<li><code>createPayMsg()</code>: Returns <code>new PayMsg2()</code>.</li>
+<li>... (and so on for all strategies): Returns the corresponding "2" strategy.</li>
+</ul>
+
+</body>
+</html>

@@ -4,6 +4,8 @@ import data.DataStore;
 import strategy.StoreCash;
 
 public class StoreCash2 implements StoreCash {
+    /* DESIGN PATTERN: Strategy - Concrete Strategy */
+    /* Responsibilities: Implements the 'Store Cash' algorithm for GasPump2 */
     @Override
     public void storeCash(DataStore data) {
         // GasPump2 does not support cash payment, so this method is empty.

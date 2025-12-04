@@ -4,6 +4,11 @@ import outputProcessor.OutputProcessor;
 import states.State;
 
 public class MDAEFSM {
+    /* DESIGN PATTERN: State - Context Class */
+    /*
+     * Responsibilities: Maintains the current state and delegates requests to the
+     * state object
+     */
     private State s;
     private State[] LS;
     private OutputProcessor p;

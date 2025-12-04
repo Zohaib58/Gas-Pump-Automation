@@ -5,6 +5,11 @@ import strategy.*;
 import strategy.impl.*;
 
 public class ConcreteFactory2 extends AbstractFactory {
+    /* DESIGN PATTERN: Abstract Factory - Concrete Factory */
+    /*
+     * Responsibilities: Creates components (DataStore, Strategies) specifically for
+     * GasPump2
+     */
     @Override
     public PayMsg createPayMsg() {
         return new PayMsg2();

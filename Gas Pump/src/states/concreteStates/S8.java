@@ -4,6 +4,11 @@ import mda.MDAEFSM;
 import states.State;
 
 public class S8 extends State {
+    /* DESIGN PATTERN: State - Concrete State */
+    /*
+     * Responsibilities: Implements behavior associated with the 'PIN Verification'
+     * state
+     */
 
     public S8(MDAEFSM m) {
         super(m);

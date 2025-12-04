@@ -4,6 +4,8 @@ import mda.MDAEFSM;
 import states.State;
 
 public class S0 extends State {
+    /* DESIGN PATTERN: State - Concrete State */
+    /* Responsibilities: Implements behavior associated with the 'Idle' state */
 
     public S0(MDAEFSM m) {
         super(m);

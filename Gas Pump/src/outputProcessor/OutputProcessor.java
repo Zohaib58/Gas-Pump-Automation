@@ -5,6 +5,11 @@ import data.DataStore;
 import strategy.*;
 
 public class OutputProcessor {
+    /* DESIGN PATTERN: Strategy - Context / Client */
+    /*
+     * Responsibilities: Maintains references to strategy objects and delegates
+     * meta-actions to them
+     */
     private DataStore data;
     private StorePrices storePrices;
     private PayMsg payMsg;

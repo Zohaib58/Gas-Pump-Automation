@@ -5,6 +5,8 @@ import data.impl.DS1;
 import strategy.StoreCash;
 
 public class StoreCash1 implements StoreCash {
+    /* DESIGN PATTERN: Strategy - Concrete Strategy */
+    /* Responsibilities: Implements the 'Store Cash' algorithm for GasPump1 */
     @Override
     public void storeCash(DataStore data) {
         DS1 d = (DS1) data;

@@ -5,6 +5,8 @@ import data.impl.DS2;
 import strategy.StorePin;
 
 public class StorePin2 implements StorePin {
+    /* DESIGN PATTERN: Strategy - Concrete Strategy */
+    /* Responsibilities: Implements the 'Store PIN' algorithm for GasPump2 */
     @Override
     public void storePin(DataStore data) {
         DS2 d = (DS2) data;

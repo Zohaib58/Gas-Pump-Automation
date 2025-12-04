@@ -5,6 +5,8 @@ import data.impl.DS2;
 import strategy.SetPrice;
 
 public class SetPrice2 implements SetPrice {
+    /* DESIGN PATTERN: Strategy - Concrete Strategy */
+    /* Responsibilities: Implements the 'Set Price' algorithm for GasPump2 */
     @Override
     public void setPrice(int g, DataStore data) {
         DS2 d = (DS2) data;

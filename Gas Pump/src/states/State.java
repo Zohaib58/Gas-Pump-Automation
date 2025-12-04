@@ -4,6 +4,11 @@ import mda.MDAEFSM;
 import outputProcessor.OutputProcessor;
 
 public abstract class State {
+    /* DESIGN PATTERN: State - State Interface / Abstract Class */
+    /*
+     * Responsibilities: Defines the interface for encapsulating the behavior
+     * associated with a particular state
+     */
     protected MDAEFSM m;
     protected OutputProcessor op;
 

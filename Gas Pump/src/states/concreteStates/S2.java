@@ -4,6 +4,11 @@ import mda.MDAEFSM;
 import states.State;
 
 public class S2 extends State {
+    /* DESIGN PATTERN: State - Concrete State */
+    /*
+     * Responsibilities: Implements behavior associated with the 'Credit Approval'
+     * state
+     */
 
     public S2(MDAEFSM m) {
         super(m);

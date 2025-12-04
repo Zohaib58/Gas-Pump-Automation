@@ -5,6 +5,8 @@ import data.impl.DS1;
 import strategy.PumpGasUnit;
 
 public class PumpGasUnit1 implements PumpGasUnit {
+    /* DESIGN PATTERN: Strategy - Concrete Strategy */
+    /* Responsibilities: Implements the 'Pump Gas Unit' algorithm for GasPump1 */
     @Override
     public void pumpGasUnit(DataStore data) {
         DS1 d = (DS1) data;

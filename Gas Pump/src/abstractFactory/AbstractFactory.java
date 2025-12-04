@@ -4,6 +4,11 @@ import strategy.*;
 import data.*;
 
 public abstract class AbstractFactory {
+    /* DESIGN PATTERN: Abstract Factory - Abstract Factory Interface */
+    /*
+     * Responsibilities: Defines the interface for creating families of related
+     * objects (Strategies and DataStore)
+     */
     public abstract PayMsg createPayMsg();
 
     public abstract StoreCash createStoreCash();

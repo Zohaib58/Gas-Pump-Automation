@@ -4,6 +4,8 @@ import mda.MDAEFSM;
 import states.State;
 
 public class S5 extends State {
+    /* DESIGN PATTERN: State - Concrete State */
+    /* Responsibilities: Implements behavior associated with the 'Pumping' state */
 
     public S5(MDAEFSM m) {
         super(m);
