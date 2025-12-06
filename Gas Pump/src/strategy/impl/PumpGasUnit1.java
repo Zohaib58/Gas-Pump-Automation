@@ -12,9 +12,6 @@ public class PumpGasUnit1 implements PumpGasUnit {
         DS1 d = (DS1) data;
         d.setL(d.getL() + 1);
         d.setTotal(d.getPrice() * d.getL());
-        // Note: Diagram says "disposes unit of gas and counts # of units".
-        // It doesn't explicitly say update total here, but usually it's needed for
-        // display.
-        // The StopPump/PrintReceipt uses total.
+
     }
 }

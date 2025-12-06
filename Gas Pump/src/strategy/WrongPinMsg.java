@@ -5,5 +5,5 @@ public interface WrongPinMsg {
     /*
      * Responsibilities: Defines the interface for the 'Wrong PIN Message' algorithm
      */
-    void wrongPinMsg();
+    void wrongPinMsg(boolean isMax);
 }

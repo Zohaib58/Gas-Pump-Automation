@@ -100,8 +100,8 @@ public class OutputProcessor {
         returnCash.returnCash(data);
     }
 
-    public void WrongPinMsg() {
-        wrongPinMsg.wrongPinMsg();
+    public void WrongPinMsg(boolean isMax) {
+        wrongPinMsg.wrongPinMsg(isMax);
     }
 
     public void StorePin() {

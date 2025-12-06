@@ -8,7 +8,7 @@ public class WrongPinMsg1 implements WrongPinMsg {
      * Responsibilities: Implements the 'Wrong PIN Message' algorithm for GasPump1
      */
     @Override
-    public void wrongPinMsg() {
+    public void wrongPinMsg(boolean isMax) {
         // GP1 has no PIN
     }
 }

@@ -180,7 +180,7 @@ Client for the Strategy Pattern. Delegates meta-actions to specific strategy obj
 <li><code>CancelMsg()</code>: Calls <code>cancelMsgStrategy.cancelMsg()</code>.</li>
 <li><code>EnterPinMsg()</code>: Calls <code>enterPinMsgStrategy.enterPinMsg()</code>.</li>
 <li><code>StorePin()</code>: Calls <code>storePinStrategy.storePin(data)</code>.</li>
-<li><code>WrongPinMsg()</code>: Calls <code>wrongPinMsgStrategy.wrongPinMsg()</code>.</li>
+<li><code>WrongPinMsg(boolean isMax)</code>: Calls <code>wrongPinMsgStrategy.wrongPinMsg(isMax)</code>.</li>
 <li><code>EjectCard()</code>: Calls <code>ejectCardStrategy.ejectCard(data)</code>.</li>
 </ul>
 
@@ -358,15 +358,15 @@ Client for the Strategy Pattern. Delegates meta-actions to specific strategy obj
 
 <h3>WrongPinMsg (Interface)</h3>
 <p><strong>Purpose:</strong> Interface for wrong PIN message.</p>
-<ul><li><code>wrongPinMsg()</code>: Displays wrong PIN error.</li></ul>
+<ul><li><code>wrongPinMsg(boolean isMax)</code>: Displays wrong PIN error. If <code>isMax</code> is true, displays "Too many attempts".</li></ul>
 
 <h3>WrongPinMsg1</h3>
 <p><strong>Purpose:</strong> Concrete strategy for GasPump1.</p>
-<ul><li><code>wrongPinMsg()</code>: Empty implementation.</li></ul>
+<ul><li><code>wrongPinMsg(boolean isMax)</code>: Empty implementation.</li></ul>
 
 <h3>WrongPinMsg2</h3>
 <p><strong>Purpose:</strong> Concrete strategy for GasPump2.</p>
-<ul><li><code>wrongPinMsg()</code>: Displays "WRONG PIN".</li></ul>
+<ul><li><code>wrongPinMsg(boolean isMax)</code>: Displays "WRONG PIN". If <code>isMax</code> is true, also displays "Too many attempts".</li></ul>
 
 <h3>EjectCard (Interface)</h3>
 <p><strong>Purpose:</strong> Interface for ejecting card.</p>

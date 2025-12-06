@@ -8,7 +8,7 @@ public class DS1 extends DataStore {
     public float total;
     public int L;
     public float price;
-    public float temp_a; // Price from Activate? Or temp cash? Diagram says temp_a is float.
+    public float temp_a;
     public int w; // Flag
 
     // Getters and Setters

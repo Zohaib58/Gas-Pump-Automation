@@ -1,6 +1,5 @@
 package strategy;
 
-import data.DataStore;
 
 public interface DisplayMenu {
     /* DESIGN PATTERN: Strategy - Strategy Interface */

@@ -4,7 +4,7 @@ import data.DataStore;
 
 public class DS2 extends DataStore {
     public int temp_a; // Regular Price
-    public int temp_b; // Diesel Price (or Premium?) Diagram says Diesel/Regular.
+    public int temp_b;
     public int temp_p; // Temp PIN
     public int pin; // Stored PIN
     public int price; // Current Price
